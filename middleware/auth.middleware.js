@@ -61,7 +61,7 @@ export const requireSuperAdmin = (req, res, next) => {
 
 export const requireAdmin = (req, res, next) => {
   if (req.role !== "admin" && req.role !== "superAdmin") {
-    return res.status(403).json(re);
+    return res.status(403).json({error: "Unauthorized. Only admins and superAdmins can perform this action"});
   }
   next();
 };
