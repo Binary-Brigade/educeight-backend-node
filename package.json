@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js"
   },
-  "authors": "Leroy Ombiji, Jeska Jenipher, Leilani Migisi, Mitchelle Njeri",
+  "authors": "Jeska Jenipher, Leilani Migisi, Mitchelle Njeri, Leroy Ombiji",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",

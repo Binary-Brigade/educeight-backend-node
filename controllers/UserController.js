@@ -10,7 +10,6 @@ export const getAllUsers = async (req, res) => {
     try {
         const allUsers = await  User.find({})
         res.status(200).json(allUsers)
-        
     } catch (error) {
         console.log(error)
     }
@@ -65,3 +64,55 @@ export const createUser = async(req, res) => {
     }
 }
 
+
+// @desc: Update a user
+// @method: PUT
+// @Route: "/api/v1/users/:id"
+// @auth: private
+
+export const updateUser = async(req, res) => {
+    try {
+        const {id} = req.params;
+        const userToUpdate = await User.findByIdAndUpdate(id, req.body)
+        if (!userToUpdate){
+            return res.status(400).json({error: "user not found"})
+        }
+        const updatedUser = await User.findById(id)
+        res.status(200).json(updatedUser)
+    } catch (err) {
+        res.status(500).json({message: err.message})
+    }
+}
+
+// @desc: Partial Update of a user
+// @method: PATCH
+// @Route: "/api/v1/users/:id"
+// @auth: private
+
+export const patchUser = async(req, res) => {
+    try {
+        const {id} = req.params;
+        const userToPatch = await User.findByIdAndUpdate(id, req.body)
+        if (!userToPatch){
+            return res.status(400).json({error: "user not found"})
+        }
+        const patchedUser = await User.findById(id)
+        res.status(200).json(patchedUser)
+    } catch (err) {
+        res.status(500).json({message: err.message})
+    }
+}
+
+// @desc: Delete a user
+// @method: DELETE
+// @Route: "/api/v1/users/:id"
+// @auth: private
+
+export const deleteUser = async (req, res) => {
+    const {id} = await req.params;
+    const user = await User.findByIdAndDelete(id);
+    if(!user){
+        return res.status(400).json({message: "user not found"})
+    }
+    res.status(200).json({message: `user with id ${id} deleted successfully`})
+}
