@@ -24,8 +24,8 @@ app.use(setUserRoles);
 app.use("/api/v1/", userRoutes);
 
 // default routes
-app.get("/", (req, res) => {
-  res.json({ message: "hELLO ES6" });
+app.get("/healthcheck", (req, res) => {
+  res.json({ status: "success", message: "HELLO ES6" });
 });
 
 mongoose.connection.once("open", () => {
