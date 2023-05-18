@@ -12,3 +12,8 @@ export const passwordValidate = (password) => {
   // If the password passes all checks, return true
   return true;
 }
+
+export const emailValidate = (email) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}

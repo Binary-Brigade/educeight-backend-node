@@ -1,6 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import { passwordValidate } from "../utils/passwordValidate.js";
+import { passwordValidate, emailValidate } from "../utils/validators.js";
 import User from "../models/UserModel.js";
 
 // @Method: "POST",
@@ -15,7 +15,10 @@ export const registerUser = async (req, res) => {
         "The password must contain an uppercase letter, lowercase letter, number and special character",
     });
   }
-
+  // validate email
+if(!emailValidate(email)){
+  return res.status(422).json({error: "email must be a valid email"})
+}
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
