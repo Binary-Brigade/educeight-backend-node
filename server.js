@@ -1,5 +1,4 @@
 import express from "express";
-import jwt from "jsonwebtoken";
 import cors from "cors";
 import mongoose from "mongoose";
 import dotenv from "dotenv";

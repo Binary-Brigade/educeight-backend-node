@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { passwordValidate } from "../utils/passwordValidate.js";
 import User from "../models/UserModel.js";
 
 // @Method: "POST",
@@ -7,12 +8,19 @@ import User from "../models/UserModel.js";
 // @Desc: registers a new user and saves them to the database
 export const registerUser = async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
+  // validate password
+  if (!passwordValidate(password)) {
+    return res.status(422).json({
+      error:
+        "The password must contain an uppercase letter, lowercase letter, number and special character",
+    });
+  }
 
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(password, salt);
 
   if (!firstName || !lastName || !email || !password) {
-    res.status(400).json({error: "all fields must be populated"});
+    res.status(400).json({ error: "all fields must be populated" });
   }
   // check if user exists
 
@@ -20,7 +28,7 @@ export const registerUser = async (req, res) => {
   if (userExists) {
     return res
       .status(400)
-      .json({error: "A user with This email already exists on the platform"});
+      .json({ error: "A user with This email already exists on the platform" });
   }
 
   const newUser = new User({
@@ -46,7 +54,7 @@ export const login = async (req, res) => {
 
   // check if the user exists in the database
   const user = await User.findOne({ email });
-  const {role} = user
+  const { role } = user;
   const generateToken = (id) => {
     return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: "1d" });
   };
