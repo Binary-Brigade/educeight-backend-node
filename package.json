@@ -1,0 +1,36 @@
+{
+  "name": "educeight-backend-node",
+  "version": "1.0.0",
+  "Node.js version": "v18.16.0",
+  "description": "node js \\backend for the educeight project",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon server.js"
+  },
+  "authors": "Jeska Jenipher, Leilani Migisi, Mitchelle Njeri, Leroy Ombiji",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-async-errors": "^3.1.1",
+    "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^7.1.0",
+    "nodemailer": "^6.9.1",
+    "nodemailer-express-handlebars": "^6.1.0",
+    "passport": "^0.6.0",
+    "passport-jwt": "^4.0.1",
+    "pug": "^3.0.2",
+    "swagger-ui-express": "^4.6.2",
+    "yamljs": "^0.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
