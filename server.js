@@ -24,7 +24,10 @@ app.use("/api/v1/", userRoutes);
 
 // default routes
 app.get("/healthcheck", (req, res) => {
-  res.json({ status: "success", message: "Healthcheck complete. Successful check" });
+  res.json({
+    status: "success",
+    message: "Healthcheck complete. Successful check",
+  });
 });
 
 mongoose.connection.once("open", () => {

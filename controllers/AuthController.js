@@ -7,7 +7,7 @@ import User from "../models/UserModel.js";
 // @Route: /auth/register
 // @Desc: registers a new user and saves them to the database
 export const registerUser = async (req, res) => {
-  const { firstName, lastName, email, password } = req.body;
+  const { firstName, lastName, email, password, role } = req.body;
   // validate password
   if (!passwordValidate(password)) {
     return res.status(422).json({
@@ -23,14 +23,14 @@ export const registerUser = async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, salt);
 
   if (!firstName || !lastName || !email || !password) {
-    res.status(400).json({ error: "all fields must be populated" });
+    res.status(422).json({ error: "all fields must be populated" });
   }
   // check if user exists
 
   const userExists = await User.findOne({ email });
   if (userExists) {
     return res
-      .status(400)
+      .status(409)
       .json({ error: "A user with This email already exists on the platform" });
   }
 
@@ -39,6 +39,7 @@ export const registerUser = async (req, res) => {
     lastName: lastName,
     email: email,
     password: hashedPassword,
+    role: role,
     refreshToken: null,
   });
   try {
@@ -53,18 +54,16 @@ export const registerUser = async (req, res) => {
 // @Route: /auth/login
 // @Desc: log in a user
 
-const generateAccessToken = (id) => {
+const generateAccessToken = (id, role) => {
   return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: "10m" });
 };
 
 const generateRefreshToken = () => {
-  let refreshToken = [];
-  const refresh = jwt.sign({}, process.env.JWT_REFRESH_SECRET, {
-    expiresIn: "1d",
+  const refreshToken = jwt.sign({}, process.env.JWT_REFRESH_SECRET, {
+    expiresIn: "15m",
   });
-  refreshToken.push(refresh);
 
-  return refresh;
+  return refreshToken;
 };
 export const login = async (req, res) => {
   const { email, password } = req.body;
@@ -101,6 +100,7 @@ export const login = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
+    console.log(err)
   }
 };
 
