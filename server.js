@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 
-app.use("/api/v1/users/auth/", AuthRoutes);
+app.use("/api/v1/auth/", AuthRoutes);
 app.use(authenticateJwt);
 app.use(setUserRoles);
 app.use("/api/v1/", userRoutes);
