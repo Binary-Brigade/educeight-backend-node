@@ -17,19 +17,6 @@ export const authenticateJwt = async (req, res, next) => {
   }
 };
 
-// middleware to set user roles
-// export const setUserRoles = (req, res, next) => {
-//   try {
-//     if (req.user && req.user.role) {
-//       req.role = req.user.role;
-//     } else {
-//       req.role = "user";
-//     }
-//   } catch (err) {
-//     console.log(err);
-//   }
-//   next();
-// };
 
 export const setUserRoles = (req, res, next) => {
   try {
