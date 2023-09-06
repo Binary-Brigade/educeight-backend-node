@@ -1,0 +1,34 @@
+version: "3.9"
+
+services:
+  # Mongodb database service
+  mongo_database:
+    container_name: db_container
+    image: mongo:latest
+    ports:
+      - '27018:27017'
+    restart: always
+    volumes:
+      - mongo_data:/data/db
+      - ./mongod.conf:/etc/mongod.conf
+    command:
+    - mongod
+    - --bind_ip_all  #bind to all network interfaces
+    - --config
+    - /etc/mongod.conf
+
+  # Node API service
+  api:
+    container_name: elimusphere_api
+    build: .
+    ports:
+      - 8000:8000
+    environment:
+      PORT: ${PORT}
+      MONGO_URI: mongodb://db_container:27017/${MONGO_DB}
+      MONGO_DB: ${MONGO_DB}
+    depends_on:
+      - mongo_database
+
+volumes:
+  mongo_data: {}
