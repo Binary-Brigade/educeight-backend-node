@@ -6,12 +6,15 @@ import { connectToDb } from "./utils/db.js";
 import AuthRoutes from "./routes/AuthRoutes.js";
 import userRoutes from "./routes/UserRoutes.js";
 import { authenticateJwt, setUserRoles } from "./middleware/auth.middleware.js";
+
+
 dotenv.config();
 // connect to database
 connectToDb();
 
 const app = express();
-const port = process.env.PORT;
+const port = process.env.PORT || 8000;
+const host = process.env.HOST;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -33,8 +36,7 @@ app.get("/healthcheck", (req, res) => {
 mongoose.connection.once("open", () => {
   console.log("Connection to database established");
   app.listen(port, () =>
-    console.log(
-      `Server listening on ${process.env.HTTP_SCHEME}://${process.env.HOST}:${port}`
-    )
+    // console.log(`Server listening on ${httpScheme}://${host}:${port}`)
+    console.log(`Server listening on http://localhost:${port}`)
   );
 });
