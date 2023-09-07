@@ -13,8 +13,10 @@ dotenv.config();
 connectToDb();
 
 const app = express();
-const port = process.env.PORT || 8000;
-const host = process.env.HOST;
+const port = process.env.PORT;
+// const host = process.env.JWT_SECRET;
+
+
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -38,5 +40,6 @@ mongoose.connection.once("open", () => {
   app.listen(port, () =>
     // console.log(`Server listening on ${httpScheme}://${host}:${port}`)
     console.log(`Server listening on http://localhost:${port}`)
+    
   );
 });

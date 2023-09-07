@@ -5,6 +5,8 @@ services:
   mongo_database:
     container_name: db_container
     image: mongo:latest
+    env_file:
+      - .env
     ports:
       - '27018:27017'
     restart: always
@@ -20,7 +22,7 @@ services:
   # Node API service
   api:
     container_name: elimusphere_api
-    build: .
+    build: . 
     ports:
       - 8000:8000
     environment:

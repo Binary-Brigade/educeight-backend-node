@@ -2,7 +2,11 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { passwordValidate, emailValidate } from "../utils/validators.js";
 import User from "../models/UserModel.js";
+import dotenv from "dotenv";
+dotenv.config();
 
+const jwtaccessTokenSecret = process.env.JWT_SECRET;
+const jwtRefreshTokenSecret = process.env.JWT_REFRESH_SECRET;
 // @Method: "POST",
 // @Route: /auth/register
 // @Desc: registers a new user and saves them to the database
@@ -45,6 +49,7 @@ export const registerUser = async (req, res) => {
   try {
     const savedUser = await newUser.save();
     res.status(201).send(savedUser);
+    console.log("host", jwtaccessTokenSecret);
   } catch (error) {
     console.log(error);
   }
@@ -55,7 +60,7 @@ export const registerUser = async (req, res) => {
 // @Desc: log in a user
 
 const generateAccessToken = (id, role) => {
-  return jwt.sign({ id, role }, process.env.JWT_SECRET, { expiresIn: "10m" });
+  return jwt.sign({ id, role }, jwtaccessTokenSecret, { expiresIn: "10m" });
 };
 
 const generateRefreshToken = () => {
