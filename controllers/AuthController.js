@@ -49,7 +49,6 @@ export const registerUser = async (req, res) => {
   try {
     const savedUser = await newUser.save();
     res.status(201).send(savedUser);
-    console.log("host", jwtaccessTokenSecret);
   } catch (error) {
     console.log(error);
   }
@@ -64,7 +63,7 @@ const generateAccessToken = (id, role) => {
 };
 
 const generateRefreshToken = () => {
-  const refreshToken = jwt.sign({}, process.env.JWT_REFRESH_SECRET, {
+  const refreshToken = jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, {
     expiresIn: "15m",
   });
 
@@ -105,7 +104,7 @@ export const login = async (req, res) => {
     });
   } catch (err) {
     res.status(500).json({ error: err.message });
-    console.log(err);
+    console.log("err:", err);
   }
 };
 
