@@ -1,0 +1,37 @@
+api:
+  dashboard: true
+
+entryPoints:
+  http:
+    address: ":80"
+  https:
+    address: ":443"
+
+providers:
+  docker:
+    endpoint: "unix:///var/run/docker.sock"
+    exposedByDefault: false
+
+certificatesResolvers:
+  letsencrypt:
+    acme:
+      email: leroythomas051@gmail.com
+      storage: acme.json
+      httpChallenge:
+        entryPoint: http
+http:
+  middlewares:
+    https-redirect:
+      redirectScheme:
+        scheme: https
+        permanent: true
+        
+http:
+  routers:
+    my-router:
+      rule: "Host(`api.myapp.local`)"
+      entryPoints:
+        - https
+      tls:
+        certResolver: letsencrypt
+

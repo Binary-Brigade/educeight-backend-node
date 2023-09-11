@@ -5,7 +5,7 @@ import User from "../models/UserModel.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-const jwtaccessTokenSecret = process.env.JWT_SECRET;
+const jwtAccessTokenSecret = process.env.JWT_SECRET;
 const jwtRefreshTokenSecret = process.env.JWT_REFRESH_SECRET;
 // @Method: "POST",
 // @Route: /auth/register
@@ -59,10 +59,10 @@ export const registerUser = async (req, res) => {
 // @Desc: log in a user
 
 const generateAccessToken = (id, role) => {
-  return jwt.sign({ id, role }, jwtaccessTokenSecret, { expiresIn: "10m" });
+  return jwt.sign({ id, role }, jwtAccessTokenSecret, { expiresIn: "10m" });
 };
 
-const generateRefreshToken = () => {
+const generateRefreshToken = (id) => {
   const refreshToken = jwt.sign({ id }, process.env.JWT_REFRESH_SECRET, {
     expiresIn: "15m",
   });
@@ -81,7 +81,7 @@ export const login = async (req, res) => {
   }
 
   // compare passwords
-  const validPassword = bcrypt.compare(user.password, password);
+  const validPassword = bcrypt.compare(password, user.password );
   if (!validPassword) {
     return res.status(400).json("wrong Email or Password");
   }
